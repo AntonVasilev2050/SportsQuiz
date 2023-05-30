@@ -3,26 +3,24 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/FirstFragment">
+    app:startDestination="@id/MainScreenFragment">
 
     <fragment
-        android:id="@+id/FirstFragment"
-        android:name="com.avv2050soft.sportsquiz.presentation.FirstFragment"
-        android:label="@string/first_fragment_label"
-        tools:layout="@layout/fragment_first">
-
+        android:id="@+id/MainScreenFragment"
+        android:name="com.avv2050soft.sportsquiz.presentation.MainScreenFragment"
+        android:label="@string/main_screen"
+        tools:layout="@layout/fragment_main_screen">
         <action
-            android:id="@+id/action_FirstFragment_to_SecondFragment"
-            app:destination="@id/SecondFragment" />
+            android:id="@+id/action_MainScreenFragment_to_GameFragment"
+            app:destination="@id/GameFragment" />
     </fragment>
     <fragment
-        android:id="@+id/SecondFragment"
-        android:name="com.avv2050soft.sportsquiz.presentation.SecondFragment"
-        android:label="@string/second_fragment_label"
-        tools:layout="@layout/fragment_second">
-
+        android:id="@+id/GameFragment"
+        android:name="com.avv2050soft.sportsquiz.presentation.GameFragment"
+        android:label="@string/game"
+        tools:layout="@layout/fragment_game">
         <action
-            android:id="@+id/action_SecondFragment_to_FirstFragment"
-            app:destination="@id/FirstFragment" />
+            android:id="@+id/action_GameFragment_to_MainScreenFragment"
+            app:destination="@id/MainScreenFragment" />
     </fragment>
 </navigation>

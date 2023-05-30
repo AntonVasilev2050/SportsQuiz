@@ -14,7 +14,9 @@ import androidx.navigation.fragment.NavHostFragment
 import com.avv2050soft.sportsquiz.R
 import com.avv2050soft.sportsquiz.databinding.ActivityMainBinding
 import com.avv2050soft.sportsquiz.presentation.utils.toastString
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
