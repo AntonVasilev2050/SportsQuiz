@@ -3,24 +3,32 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/MainScreenFragment">
+    app:startDestination="@id/mainScreenFragment">
 
     <fragment
-        android:id="@+id/MainScreenFragment"
+        android:id="@+id/mainScreenFragment"
         android:name="com.avv2050soft.sportsquiz.presentation.MainScreenFragment"
         android:label="@string/main_screen"
         tools:layout="@layout/fragment_main_screen">
         <action
-            android:id="@+id/action_MainScreenFragment_to_GameFragment"
-            app:destination="@id/GameFragment" />
+            android:id="@+id/action_mainScreenFragment_to_gameFragment"
+            app:destination="@id/gameFragment" />
+        <action
+            android:id="@+id/action_mainScreenFragment_to_wallpapersFragment"
+            app:destination="@id/wallpapersFragment" />
     </fragment>
     <fragment
-        android:id="@+id/GameFragment"
+        android:id="@+id/gameFragment"
         android:name="com.avv2050soft.sportsquiz.presentation.GameFragment"
         android:label="@string/game"
         tools:layout="@layout/fragment_game">
         <action
-            android:id="@+id/action_GameFragment_to_MainScreenFragment"
-            app:destination="@id/MainScreenFragment" />
+            android:id="@+id/action_gameFragment_to_mainScreenFragment"
+            app:destination="@id/mainScreenFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/wallpapersFragment"
+        android:name="com.avv2050soft.sportsquiz.presentation.WallpapersFragment"
+        android:label="@string/wallpapers_store"
+        tools:layout="@layout/fragment_wallpapers" />
 </navigation>

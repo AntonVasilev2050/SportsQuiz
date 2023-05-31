@@ -18,4 +18,8 @@ class DatabaseRepositoryImpl @Inject constructor(
     override suspend fun getQuizItemsFromDb(count: Int): List<QuizItem> {
         return db.quizItemsDao().getQizItemsFromDb(count)
     }
+
+    override suspend fun insertQuizItem(quizItem: QuizItem) {
+        db.quizItemsDao().insertQuizItem(quizItem)
+    }
 }

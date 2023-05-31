@@ -1,6 +1,8 @@
 package com.avv2050soft.sportsquiz.data
 
 import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.avv2050soft.sportsquiz.domain.models.QuizItem
 
@@ -12,4 +14,7 @@ interface QuizItemDao {
 
     @Query("SELECT * FROM quiz_items ORDER BY RANDOM() LIMIT  :count")
     suspend fun getQizItemsFromDb(count : Int): List<QuizItem>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertQuizItem(item: QuizItem)
 }

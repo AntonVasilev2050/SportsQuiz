@@ -17,8 +17,6 @@ class GameFragment : Fragment(R.layout.fragment_game) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.buttonSecond.setOnClickListener {
-            findNavController().navigate(R.id.action_GameFragment_to_MainScreenFragment)
-        }
+
     }
 }
