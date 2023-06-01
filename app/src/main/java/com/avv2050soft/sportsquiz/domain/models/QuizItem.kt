@@ -12,6 +12,6 @@ data class QuizItem(
     val answerTwo: String,
     val answerThree: String,
     val answerFour: String,
-    val imageUrl: String
+    val imageUrl: String?
 //    "android.resource://com.avv2050soft.sportsquiz/drawable/image_name"
 )

@@ -9,10 +9,13 @@ import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.avv2050soft.sportsquiz.R
 import com.avv2050soft.sportsquiz.databinding.FragmentMainScreenBinding
-import com.avv2050soft.sportsquiz.domain.models.QuizItem
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
+const val GAME_DURATION_KEY = "game duration key"
+private const val GAME_DURATION_CRAZY = 30
+private const val GAME_DURATION_HARD = 60
+private const val GAME_DURATION_EASY = 120
 @AndroidEntryPoint
 class MainScreenFragment : Fragment(R.layout.fragment_main_screen) {
     private val binding by viewBinding(FragmentMainScreenBinding::bind)
@@ -20,20 +23,10 @@ class MainScreenFragment : Fragment(R.layout.fragment_main_screen) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        lifecycleScope.launch {
+            viewModel.initDb()
+        }
         binding.buttonSpendPoints.setOnClickListener {
-            lifecycleScope.launch {
-                viewModel.insertQuizItem(
-                    QuizItem(
-                        0,
-                        "question",
-                        "First",
-                        "Second",
-                        "Third",
-                        "Fourth",
-                        "android.resource://com.avv2050soft.sportsquiz/drawable/pictures_a.xml"
-                    )
-                )
-            }
             findNavController().navigate(R.id.action_mainScreenFragment_to_wallpapersFragment)
         }
         binding.buttonCrazy.setOnClickListener {
@@ -47,17 +40,25 @@ class MainScreenFragment : Fragment(R.layout.fragment_main_screen) {
         binding.buttonEasy.setOnClickListener {
             setupEasy()
         }
+
+        binding.textViewPointsCount.text = GameFragment.gameScore.toString()
     }
 
     private fun setupCrazy() {
-        findNavController().navigate(R.id.action_mainScreenFragment_to_gameFragment)
+        val bundle = Bundle()
+        bundle.putInt(GAME_DURATION_KEY, GAME_DURATION_CRAZY)
+        findNavController().navigate(R.id.action_mainScreenFragment_to_gameFragment, bundle)
     }
 
     private fun setupHard() {
-        findNavController().navigate(R.id.action_mainScreenFragment_to_gameFragment)
+        val bundle = Bundle()
+        bundle.putInt(GAME_DURATION_KEY, GAME_DURATION_HARD)
+        findNavController().navigate(R.id.action_mainScreenFragment_to_gameFragment, bundle)
     }
 
     private fun setupEasy() {
-        findNavController().navigate(R.id.action_mainScreenFragment_to_gameFragment)
+        val bundle = Bundle()
+        bundle.putInt(GAME_DURATION_KEY, GAME_DURATION_EASY)
+        findNavController().navigate(R.id.action_mainScreenFragment_to_gameFragment, bundle)
     }
 }

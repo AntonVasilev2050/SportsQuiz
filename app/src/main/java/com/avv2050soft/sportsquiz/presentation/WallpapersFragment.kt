@@ -7,7 +7,6 @@ import android.graphics.BitmapFactory
 import android.os.Build
 import android.os.Bundle
 import android.view.View
-import android.widget.Button
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -25,7 +24,6 @@ class WallpapersFragment : Fragment(R.layout.fragment_wallpapers) {
     private val requestPermissionLauncher =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
             if (isGranted) {
-                // Разрешение получено, устанавливаем обои
                 applyWallpaper()
             } else {
                 toastString("permission denied")
@@ -46,7 +44,7 @@ class WallpapersFragment : Fragment(R.layout.fragment_wallpapers) {
                     Manifest.permission.SET_WALLPAPER
                 ) != PackageManager.PERMISSION_GRANTED
             ) {
-                // Запрашиваем разрешение с помощью новой системы обратного вызова разрешений
+                // Запрашиваем разрешение
                 requestPermissionLauncher.launch(Manifest.permission.SET_WALLPAPER)
             } else {
                 // Если разрешение уже предоставлено, устанавливаем обои
@@ -60,13 +58,12 @@ class WallpapersFragment : Fragment(R.layout.fragment_wallpapers) {
 
     private fun applyWallpaper() {
         val wallpaperManager = WallpaperManager.getInstance(requireContext())
-        val bitmap = BitmapFactory.decodeResource(resources, R.drawable.windows_95)
+        val bitmap = BitmapFactory.decodeResource(resources, R.drawable.wallpaper_water_leaves)
 
         try {
             wallpaperManager.setBitmap(bitmap)
             toastString("wallpaper was setup successfully")
         } catch (e: IOException) {
-            e.printStackTrace()
             toastString("wallpaper setup failed ${e.message}")
         }
     }

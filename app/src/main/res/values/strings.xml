@@ -47,4 +47,6 @@
     <string name="main_screen">Main Screen</string>
     <string name="game">Game</string>
     <string name="wallpapers_store">Wallpapers Store</string>
+    <string name="question">Question</string>
+    <string name="picture_for_the_question">Picture for the question</string>
 </resources>
