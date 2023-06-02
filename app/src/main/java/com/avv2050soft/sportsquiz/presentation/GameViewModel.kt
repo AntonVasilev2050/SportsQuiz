@@ -37,9 +37,9 @@ class GameViewModel @Inject constructor(
         }
     }
 
-    fun getQuestionsFromDb(){
+    fun getQuestionsFromDb(count: Int){
         viewModelScope.launch {
-            quizItems = repository.getQuizItemsFromDb(10)
+            quizItems = repository.getQuizItemsFromDb(count)
             _quizItemsStateFlow.value = quizItems
         }
     }

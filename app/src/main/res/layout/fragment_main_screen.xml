@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -8,13 +7,12 @@
     android:padding="16dp"
     tools:context=".presentation.MainScreenFragment">
 
-
     <Button
         android:id="@+id/buttonCrazy"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="100dp"
-        android:text="Tough as nails"
+        android:text="@string/tough_as_nails"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -24,7 +22,7 @@
         android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="Hard"
+        android:text="@string/hard"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/buttonCrazy" />
@@ -34,7 +32,7 @@
         android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="Easy peasy"
+        android:text="@string/easy_peasy"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/buttonHard" />
@@ -43,10 +41,10 @@
         android:id="@+id/textViewPointsCountLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Smackers gained so far: "
-        app:layout_constraintBottom_toBottomOf="@+id/buttonSpendPoints"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/buttonSpendPoints" />
+        android:layout_marginBottom="50dp"
+        android:text="@string/smackers_gained_so_far"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/textViewPointsCount"
@@ -62,10 +60,11 @@
 
     <Button
         android:id="@+id/buttonSpendPoints"
-        android:layout_width="wrap_content"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="50dp"
-        android:text="Hit the store"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        android:layout_marginTop="32dp"
+        android:text="@string/hit_the_store"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonEasy" />
 </androidx.constraintlayout.widget.ConstraintLayout>

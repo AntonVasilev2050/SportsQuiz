@@ -1,12 +1,9 @@
 package com.avv2050soft.sportsquiz.presentation
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.avv2050soft.sportsquiz.domain.models.QuizItem
 import com.avv2050soft.sportsquiz.domain.repository.DatabaseRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
