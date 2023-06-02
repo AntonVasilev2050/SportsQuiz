@@ -13,6 +13,8 @@ import android.view.MenuItem
 import androidx.navigation.fragment.NavHostFragment
 import com.avv2050soft.sportsquiz.R
 import com.avv2050soft.sportsquiz.databinding.ActivityMainBinding
+import com.avv2050soft.sportsquiz.presentation.GameViewModel.Companion.isTicking
+import com.avv2050soft.sportsquiz.presentation.GameViewModel.Companion.questionNumber
 import com.avv2050soft.sportsquiz.presentation.utils.toastString
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -61,6 +63,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onSupportNavigateUp(): Boolean {
+        isTicking = false
+        questionNumber = 0
         val navController = findNavController(R.id.nav_host_fragment_content_main)
         return navController.navigateUp(appBarConfiguration)
                 || super.onSupportNavigateUp()

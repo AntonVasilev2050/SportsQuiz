@@ -3,6 +3,8 @@ package com.avv2050soft.sportsquiz.presentation
 import android.os.Bundle
 import android.view.View
 import android.widget.RadioButton
+import androidx.activity.OnBackPressedCallback
+import androidx.activity.addCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -10,6 +12,9 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import com.avv2050soft.sportsquiz.R
 import com.avv2050soft.sportsquiz.databinding.FragmentGameBinding
 import com.avv2050soft.sportsquiz.domain.models.QuizItem
+import com.avv2050soft.sportsquiz.presentation.GameViewModel.Companion.gameScore
+import com.avv2050soft.sportsquiz.presentation.GameViewModel.Companion.isTicking
+import com.avv2050soft.sportsquiz.presentation.GameViewModel.Companion.questionNumber
 import com.avv2050soft.sportsquiz.presentation.utils.launchAndCollectIn
 import com.avv2050soft.sportsquiz.presentation.utils.toastString
 import com.bumptech.glide.Glide
@@ -34,14 +39,17 @@ class GameFragment : Fragment(R.layout.fragment_game) {
         val gameDuration = arguments?.getInt(GAME_DURATION_KEY, MAX_PROGRESS)
         rewardLevel = getRewardLevel(gameDuration)
 
-
         val progressBarStep = MAX_PROGRESS / (gameDuration ?: MAX_PROGRESS)
         binding.progressBar.max = MAX_PROGRESS + progressBarStep
         binding.progressBar.progress = MAX_PROGRESS + progressBarStep
 
         gameDuration?.let {
-            viewModel.countdown(it)
-            viewModel.getQuestionsFromDb(QUESTION_COUNT)
+            if (!isTicking){
+                questionNumber = 0
+                viewModel.countdown(it)
+                viewModel.getQuestionsFromDb(QUESTION_COUNT)
+                isTicking = true
+            }
         }
         viewModel.countStateFlow.launchAndCollectIn(viewLifecycleOwner) {
             binding.textViewCount.text = it.toString()
@@ -52,7 +60,6 @@ class GameFragment : Fragment(R.layout.fragment_game) {
         }
         viewModel.quizItemsStateFlow.launchAndCollectIn(viewLifecycleOwner) { quizItems ->
             if (quizItems.isNotEmpty()) {
-                var questionNumber = 0
                 askQuestion(questionNumber, quizItems[questionNumber])
 
                 binding.buttonGameNext.setOnClickListener {
@@ -72,10 +79,13 @@ class GameFragment : Fragment(R.layout.fragment_game) {
                 }
             }
         }
+
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
+            quizRoundOver()
+        }
     }
 
     private fun getRewardLevel(gameDuration: Int?): Int {
-
         val rewardLevel = when (gameDuration) {
             in 0..30 -> {
                 4
@@ -119,7 +129,10 @@ class GameFragment : Fragment(R.layout.fragment_game) {
     }
 
     private fun quizRoundOver() {
+        val losingPenalty = WRONG_ANSWER_REWARD * rewardLevel * QUESTION_COUNT
+        gameScore += losingPenalty
         toastString("This quiz is over")
+        isTicking = false
         findNavController().navigate(R.id.action_gameFragment_to_mainScreenFragment)
     }
 
@@ -152,9 +165,5 @@ class GameFragment : Fragment(R.layout.fragment_game) {
             radioButton3.text = shuffledAnswers[2]
             radioButton4.text = shuffledAnswers[3]
         }
-    }
-
-    companion object {
-        var gameScore = 0
     }
 }

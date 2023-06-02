@@ -9,6 +9,7 @@ import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.avv2050soft.sportsquiz.R
 import com.avv2050soft.sportsquiz.databinding.FragmentMainScreenBinding
+import com.avv2050soft.sportsquiz.presentation.GameViewModel.Companion.gameScore
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -41,7 +42,7 @@ class MainScreenFragment : Fragment(R.layout.fragment_main_screen) {
             setupEasy()
         }
 
-        binding.textViewPointsCount.text = GameFragment.gameScore.toString()
+        binding.textViewPointsCount.text = gameScore.toString()
     }
 
     private fun setupCrazy() {

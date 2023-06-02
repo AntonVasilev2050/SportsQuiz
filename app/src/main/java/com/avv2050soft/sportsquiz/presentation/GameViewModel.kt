@@ -43,4 +43,10 @@ class GameViewModel @Inject constructor(
             _quizItemsStateFlow.value = quizItems
         }
     }
+
+    companion object {
+        var gameScore = 0
+        var isTicking = false
+        var questionNumber = 0
+    }
 }
