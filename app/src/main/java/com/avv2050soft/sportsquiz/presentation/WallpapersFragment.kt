@@ -5,12 +5,14 @@ import android.app.WallpaperManager
 import android.content.pm.PackageManager
 import android.content.res.Resources
 import android.graphics.BitmapFactory
+import android.graphics.drawable.PictureDrawable
 import android.os.Build
 import android.os.Bundle
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.CompositePageTransformer
 import androidx.viewpager2.widget.MarginPageTransformer
@@ -18,10 +20,14 @@ import androidx.viewpager2.widget.ViewPager2
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.avv2050soft.sportsquiz.R
 import com.avv2050soft.sportsquiz.data.LocalData
+import com.avv2050soft.sportsquiz.databinding.DialogConfirmPurchaseBinding
 import com.avv2050soft.sportsquiz.databinding.FragmentWallpapersBinding
+import com.avv2050soft.sportsquiz.domain.models.Player
 import com.avv2050soft.sportsquiz.domain.models.WallpaperItem
+import com.avv2050soft.sportsquiz.presentation.GameViewModel.Companion.gameScore
 import com.avv2050soft.sportsquiz.presentation.adapters.WallpapersAdapter
 import com.avv2050soft.sportsquiz.presentation.utils.toastString
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import dagger.hilt.android.AndroidEntryPoint
 import java.io.IOException
 import kotlin.math.abs
@@ -29,13 +35,15 @@ import kotlin.math.abs
 @AndroidEntryPoint
 class WallpapersFragment : Fragment(R.layout.fragment_wallpapers) {
 
+    private var pictureDrawable = R.drawable.wallpaper_water_leaves
     private val binding by viewBinding(FragmentWallpapersBinding::bind)
+    private val viewModel  by viewModels<WallpapersViewModel>()
     private val requestPermissionLauncher =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
             if (isGranted) {
-                applyWallpaper()
+                applyWallpaper(pictureDrawable)
             } else {
-                toastString("permission denied")
+                toastString(getString(R.string.permission_denied))
             }
         }
     private lateinit var viewPagerWallpaper: ViewPager2
@@ -45,12 +53,32 @@ class WallpapersFragment : Fragment(R.layout.fragment_wallpapers) {
     )
 
     private fun onBuyClick(wallpaperItem: WallpaperItem) {
-        toastString("Clicked ${wallpaperItem.price}")
+        conformPurchase(wallpaperItem)
+    }
+
+    private fun conformPurchase(wallpaperItem: WallpaperItem) {
+        val confirmDialog = BottomSheetDialog(requireContext())
+        val bindingDialog = DialogConfirmPurchaseBinding.inflate(layoutInflater)
+        confirmDialog.setContentView(bindingDialog.root)
+        bindingDialog.buttonNo.setOnClickListener { confirmDialog.dismiss() }
+        bindingDialog.buttonYes.setOnClickListener {
+            if (gameScore >= wallpaperItem.price) {
+                gameScore -= wallpaperItem.price
+                viewModel.insertPlayerIntoDb(Player(1, "Player", gameScore))
+                pictureDrawable = wallpaperItem.pictureDrawable
+                setWallpaper(pictureDrawable)
+            } else {
+                toastString(getString(R.string.not_enough_points_to_purchase))
+            }
+            confirmDialog.dismiss()
+            binding.textViewPointsCount.text = gameScore.toString()
+        }
+        confirmDialog.show()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        binding.textViewPointsCount.text = gameScore.toString()
         viewPagerWallpaper = binding.viewPagerWallpaper
         viewPagerWallpaper.apply {
             clipChildren = false
@@ -64,18 +92,14 @@ class WallpapersFragment : Fragment(R.layout.fragment_wallpapers) {
         )
         compositePageTransformer.addTransformer { page, position ->
             val r = 1 - abs(position)
-            page.scaleY = (0.80f + r * 0.20f)
+            page.scaleY = (0.70f + r * 0.30f)
         }
         viewPagerWallpaper.setPageTransformer(compositePageTransformer)
-
         viewPagerWallpaper.adapter = wallpapersAdapter
 
-        binding.buttonBuy.setOnClickListener {
-            setWallpaper()
-        }
     }
 
-    private fun setWallpaper() {
+    private fun setWallpaper(pictureDrawable: Int) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (ContextCompat.checkSelfPermission(
                     requireContext(),
@@ -86,17 +110,17 @@ class WallpapersFragment : Fragment(R.layout.fragment_wallpapers) {
                 requestPermissionLauncher.launch(Manifest.permission.SET_WALLPAPER)
             } else {
                 // Если разрешение уже предоставлено, устанавливаем обои
-                applyWallpaper()
+                applyWallpaper(pictureDrawable)
             }
         } else {
             // Для версий Android ниже 6.0 не требуется запрос разрешения
-            applyWallpaper()
+            applyWallpaper(pictureDrawable)
         }
     }
 
-    private fun applyWallpaper() {
+    private fun applyWallpaper(pictureDrawable: Int) {
         val wallpaperManager = WallpaperManager.getInstance(requireContext())
-        val bitmap = BitmapFactory.decodeResource(resources, R.drawable.wallpaper_water_leaves)
+        val bitmap = BitmapFactory.decodeResource(resources, pictureDrawable)
 
         try {
             wallpaperManager.setBitmap(bitmap)

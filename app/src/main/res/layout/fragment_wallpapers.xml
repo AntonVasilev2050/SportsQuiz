@@ -7,16 +7,6 @@
     tools:context=".presentation.WallpapersFragment">
 
 
-    <Button
-        android:id="@+id/buttonBuy"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:text="Buy"
-        app:layout_constraintBottom_toBottomOf="@+id/textViewPointsCountLabel"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/textViewPointsCountLabel" />
-
     <TextView
         android:id="@+id/textViewPointsCountLabel"
         android:layout_width="wrap_content"
@@ -41,8 +31,10 @@
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/viewPagerWallpaper"
-        android:layout_width="250dp"
+        android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
         android:layout_marginBottom="32dp"
         app:layout_constraintBottom_toTopOf="@+id/textViewPointsCountLabel"
         app:layout_constraintEnd_toEndOf="parent"

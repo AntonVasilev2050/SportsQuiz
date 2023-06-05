@@ -23,4 +23,9 @@
     <string name="points_gained_so_far">Points gained so far:</string>
     <string name="an_image_of_wallpaper_for_sale">An image of wallpaper for sale</string>
     <string name="buy_for">Buy for:</string>
+    <string name="confirm_purchase">Confirm purchase</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="not_enough_points_to_purchase">Not enough points to purchase!</string>
+    <string name="permission_denied">permission denied</string>
 </resources>

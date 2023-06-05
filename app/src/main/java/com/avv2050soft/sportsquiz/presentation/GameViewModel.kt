@@ -1,7 +1,9 @@
 package com.avv2050soft.sportsquiz.presentation
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.avv2050soft.sportsquiz.domain.models.Player
 import com.avv2050soft.sportsquiz.domain.models.QuizItem
 import com.avv2050soft.sportsquiz.domain.repository.DatabaseRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -41,6 +43,12 @@ class GameViewModel @Inject constructor(
         viewModelScope.launch {
             quizItems = repository.getQuizItemsFromDb(count)
             _quizItemsStateFlow.value = quizItems
+        }
+    }
+
+    fun insertPlayerIntoDb(player: Player){
+        viewModelScope.launch {
+            repository.insertPlayer(player)
         }
     }
 

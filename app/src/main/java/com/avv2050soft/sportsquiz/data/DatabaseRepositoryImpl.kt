@@ -1,6 +1,7 @@
 package com.avv2050soft.sportsquiz.data
 
 import android.content.Context
+import com.avv2050soft.sportsquiz.domain.models.Player
 import com.avv2050soft.sportsquiz.domain.models.QuizItem
 import com.avv2050soft.sportsquiz.domain.repository.DatabaseRepository
 import javax.inject.Inject
@@ -21,5 +22,13 @@ class DatabaseRepositoryImpl @Inject constructor(
 
     override suspend fun insertQuizItem(quizItem: QuizItem) {
         db.quizItemsDao().insertQuizItem(quizItem)
+    }
+
+    override suspend fun getAllPlayersFromDb(): List<Player> {
+        return db.playersDao().getAllPlayersFromDb()
+    }
+
+    override suspend fun insertPlayer(player: Player) {
+        db.playersDao().insertPlayer(player)
     }
 }

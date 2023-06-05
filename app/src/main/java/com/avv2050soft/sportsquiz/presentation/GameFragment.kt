@@ -10,6 +10,7 @@ import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.avv2050soft.sportsquiz.R
 import com.avv2050soft.sportsquiz.databinding.FragmentGameBinding
+import com.avv2050soft.sportsquiz.domain.models.Player
 import com.avv2050soft.sportsquiz.domain.models.QuizItem
 import com.avv2050soft.sportsquiz.presentation.GameViewModel.Companion.gameScore
 import com.avv2050soft.sportsquiz.presentation.GameViewModel.Companion.isTicking
@@ -123,6 +124,7 @@ class GameFragment : Fragment(R.layout.fragment_game) {
         }
         toastString("This quiz is over")
         isTicking = false
+        viewModel.insertPlayerIntoDb(Player(1, "Player", gameScore))
         findNavController().navigate(R.id.action_gameFragment_to_mainScreenFragment)
     }
 

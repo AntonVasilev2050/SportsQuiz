@@ -25,7 +25,7 @@ class WallpapersAdapter(
     override fun onBindViewHolder(holder: WallpaperViewHolder, position: Int) {
         with(holder.binding){
             Glide.with(imageViewWallpaper.context)
-                .load(wallpapers[position].pictureUrl)
+                .load(wallpapers[position].pictureDrawable)
                 .into(imageViewWallpaper)
             textViewWallpaperPrice.text = wallpapers[position].price.toString()
 
