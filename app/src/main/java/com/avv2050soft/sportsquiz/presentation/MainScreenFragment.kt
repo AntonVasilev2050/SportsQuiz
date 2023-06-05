@@ -35,15 +35,18 @@ class MainScreenFragment : Fragment(R.layout.fragment_main_screen) {
             findNavController().navigate(R.id.action_mainScreenFragment_to_wallpapersFragment)
         }
         binding.buttonCrazy.setOnClickListener {
-            setupCrazy()
+            val gameDuration = GAME_DURATION_CRAZY
+            setupGame(gameDuration)
         }
 
         binding.buttonHard.setOnClickListener {
-            setupHard()
+            val gameDuration = GAME_DURATION_HARD
+            setupGame(gameDuration)
         }
 
         binding.buttonEasy.setOnClickListener {
-            setupEasy()
+            val gameDuration = GAME_DURATION_EASY
+            setupGame(gameDuration)
         }
 
         viewModel.playerStateFlow.launchAndCollectIn(viewLifecycleOwner) {
@@ -54,21 +57,9 @@ class MainScreenFragment : Fragment(R.layout.fragment_main_screen) {
         }
     }
 
-    private fun setupCrazy() {
+    private fun setupGame(gameDuration: Int) {
         val bundle = Bundle()
-        bundle.putInt(GAME_DURATION_KEY, GAME_DURATION_CRAZY)
-        findNavController().navigate(R.id.action_mainScreenFragment_to_gameFragment, bundle)
-    }
-
-    private fun setupHard() {
-        val bundle = Bundle()
-        bundle.putInt(GAME_DURATION_KEY, GAME_DURATION_HARD)
-        findNavController().navigate(R.id.action_mainScreenFragment_to_gameFragment, bundle)
-    }
-
-    private fun setupEasy() {
-        val bundle = Bundle()
-        bundle.putInt(GAME_DURATION_KEY, GAME_DURATION_EASY)
+        bundle.putInt(GAME_DURATION_KEY, gameDuration)
         findNavController().navigate(R.id.action_mainScreenFragment_to_gameFragment, bundle)
     }
 }
