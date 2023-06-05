@@ -22,6 +22,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
+        android:textColor="@color/black"
         app:layout_constraintBottom_toBottomOf="@+id/textViewQuestionLabel"
         app:layout_constraintStart_toEndOf="@+id/textViewQuestionLabel"
         app:layout_constraintTop_toTopOf="@+id/textViewQuestionLabel"
@@ -31,9 +32,10 @@
         android:id="@+id/textViewQuestion"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
         android:textColor="@color/black"
         android:textSize="20sp"
-        app:layout_constraintEnd_toStartOf="@+id/progressBar"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/textViewQuestionLabel"
         app:layout_constraintTop_toBottomOf="@+id/textViewQuestionLabel"
         tools:text="В каком виде спорта у вас был бы тачдаун?" />
@@ -146,45 +148,68 @@
         android:id="@+id/buttonGameNext"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="50dp"
         android:text="@string/next"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintBottom_toBottomOf="@+id/progressBar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/progressBar" />
 
     <ImageView
         android:id="@+id/imageViewGameQuestion"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
         android:adjustViewBounds="true"
+        android:contentDescription="@string/picture_for_the_question"
         android:scaleType="centerCrop"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/progressBar"
-        tools:src="@drawable/pictures_a"
-        android:contentDescription="@string/picture_for_the_question" />
+        app:layout_constraintTop_toBottomOf="@+id/textViewQuestion"
+        tools:src="@drawable/pictures_a" />
 
     <ProgressBar
         android:id="@+id/progressBar"
         style="?android:attr/progressBarStyle"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_marginBottom="32dp"
         android:indeterminateOnly="false"
         android:max="100"
         android:progressDrawable="@drawable/circle_progress"
         android:rotation="-90"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/textViewCount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/black"
-        android:textSize="32sp"
+        android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/progressBar"
         app:layout_constraintEnd_toEndOf="@+id/progressBar"
         app:layout_constraintStart_toStartOf="@+id/progressBar"
         app:layout_constraintTop_toTopOf="@+id/progressBar"
         tools:text="120" />
+
+    <TextView
+        android:id="@+id/textViewQuestionsLeftLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:text="@string/questions_left"
+        app:layout_constraintBottom_toBottomOf="@+id/textViewQuestionLabel"
+        app:layout_constraintEnd_toStartOf="@+id/textViewQuestionsLeft"
+        app:layout_constraintTop_toTopOf="@+id/textViewQuestionLabel" />
+
+    <TextView
+        android:id="@+id/textViewQuestionsLeft"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="32dp"
+        android:textColor="@color/black"
+        app:layout_constraintBottom_toBottomOf="@+id/textViewQuestionsLeftLabel"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/textViewQuestionsLeftLabel"
+        tools:text="10" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -3,7 +3,6 @@ package com.avv2050soft.sportsquiz.presentation
 import android.os.Bundle
 import android.view.View
 import android.widget.RadioButton
-import androidx.activity.OnBackPressedCallback
 import androidx.activity.addCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -32,6 +31,7 @@ class GameFragment : Fragment(R.layout.fragment_game) {
     private val binding by viewBinding(FragmentGameBinding::bind)
     private val viewModel by viewModels<GameViewModel>()
     private var rewardLevel = 1
+    private var questionsLeft = QUESTION_COUNT
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -44,7 +44,7 @@ class GameFragment : Fragment(R.layout.fragment_game) {
         binding.progressBar.progress = MAX_PROGRESS + progressBarStep
 
         gameDuration?.let {
-            if (!isTicking){
+            if (!isTicking) {
                 questionNumber = 0
                 viewModel.countdown(it)
                 viewModel.getQuestionsFromDb(QUESTION_COUNT)
@@ -79,7 +79,6 @@ class GameFragment : Fragment(R.layout.fragment_game) {
                 }
             }
         }
-
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
             quizRoundOver()
         }
@@ -87,21 +86,10 @@ class GameFragment : Fragment(R.layout.fragment_game) {
 
     private fun getRewardLevel(gameDuration: Int?): Int {
         val rewardLevel = when (gameDuration) {
-            in 0..30 -> {
-                4
-            }
-
-            in 31..60 -> {
-                2
-            }
-
-            in 61..120 -> {
-                1
-            }
-
-            else -> {
-                1
-            }
+            in 0..30 -> 4
+            in 31..60 -> 2
+            in 61..120 -> 1
+            else -> 1
         }
         return rewardLevel
     }
@@ -112,13 +100,13 @@ class GameFragment : Fragment(R.layout.fragment_game) {
             gameScore += if (answer == quizItem.answerOne) {
                 toastString(buildString {
                     append(getString(R.string.right_answer))
-                    append(answer)
+                    append(quizItem.answerOne)
                 })
                 RIGHT_ANSWER_REWARD * rewardLevel
             } else {
                 toastString(buildString {
                     append(getString(R.string.wrong_answer))
-                    append(answer)
+                    append(quizItem.answerOne)
                 })
                 WRONG_ANSWER_REWARD * rewardLevel
             }
@@ -130,13 +118,16 @@ class GameFragment : Fragment(R.layout.fragment_game) {
 
     private fun quizRoundOver() {
         val losingPenalty = WRONG_ANSWER_REWARD * rewardLevel * QUESTION_COUNT
-        gameScore += losingPenalty
+        if (questionsLeft > 0){
+            gameScore += losingPenalty
+        }
         toastString("This quiz is over")
         isTicking = false
         findNavController().navigate(R.id.action_gameFragment_to_mainScreenFragment)
     }
 
     private fun askQuestion(questionNumber: Int, quizItem: QuizItem) {
+        questionsLeft = QUESTION_COUNT - questionNumber - 1
         val pictureSize = resources.displayMetrics.widthPixels / 2
         val requestOptions = RequestOptions()
             .override(pictureSize, pictureSize)
@@ -144,6 +135,7 @@ class GameFragment : Fragment(R.layout.fragment_game) {
         with(binding) {
             val displayedQuestionNumber = (questionNumber + 1).toString()
             textViewQuestionNumber.text = displayedQuestionNumber
+            textViewQuestionsLeft.text = questionsLeft.toString()
             imageViewGameQuestion.setImageDrawable(null)
             if (!quizItem.imageUrl.isNullOrEmpty()) {
                 Glide.with(imageViewGameQuestion.context)
